@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unearth.Demo.ML.FromDB.MLNET9", "Unearth.Demo.ML.FromDB.MLNET9\Unearth.Demo.ML.FromDB.MLNET9.csproj", "{F8199A3A-1049-4657-B0B2-22374E68930B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unearth.Demo.ML.FromDB.Common", "Unearth.Demo.ML.FromDB.Common\Unearth.Demo.ML.FromDB.Common.csproj", "{2F14006D-A885-4DAC-AD4D-73F654940DAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8199A3A-1049-4657-B0B2-22374E68930B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8199A3A-1049-4657-B0B2-22374E68930B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8199A3A-1049-4657-B0B2-22374E68930B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8199A3A-1049-4657-B0B2-22374E68930B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F14006D-A885-4DAC-AD4D-73F654940DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F14006D-A885-4DAC-AD4D-73F654940DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F14006D-A885-4DAC-AD4D-73F654940DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F14006D-A885-4DAC-AD4D-73F654940DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19C9A668-F68D-47BA-9DAC-2887486F9F54}
+	EndGlobalSection
+EndGlobal
