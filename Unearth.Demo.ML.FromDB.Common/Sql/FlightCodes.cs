@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Unearth.Demo.ML.FromDB.Common.Sql
 {
     public partial class FlightCodes
