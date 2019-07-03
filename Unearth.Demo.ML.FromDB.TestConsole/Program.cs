@@ -31,23 +31,16 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
             ITransformer model = null;
             try
             {
-                // Try with concurrency 0 (multi-threaded)
-                model = MLNetHelper.TrainModel(dbOptions, cacheData: false, concurrency: 0, nth: 1);
+                model = MLNetHelper.TrainModel(dbOptions, cacheData: true, nth: 1);
             }
             catch (AggregateException)
             {
-                // This happens when concurrency = 0 or > 1 and multiple threads attempt to read from
-                // the EF DBContext
-                Console.WriteLine("Got AggregateException while training multi-threaded");
+                // This happens when multiple threads attempt to read from the EF DBContext
+                Console.WriteLine("Got AggregateException while training");
             }
 
-            if (model == null)
-            {
-                // Should work single-threaded (concurrency = 1)
-                model = MLNetHelper.TrainModel(dbOptions, cacheData: false, concurrency: 1, nth: 1);
-            }
-
-            MLNetHelper.TestModel(model);
+            if (model != null)
+                MLNetHelper.TestModel(model);
 
             Console.WriteLine("Finished - press enter to exit");
             Console.ReadLine();

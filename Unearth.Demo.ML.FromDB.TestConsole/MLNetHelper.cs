@@ -18,7 +18,7 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
             ITransformer trainedModel = null;
 
             // Create an ML.NET environment
-            var mlContext = new MLContext(seed: 0, conc: concurrency);
+            var mlContext = new MLContext(seed: 0);
 
             // Train from EF DBContext
             using (var airlinesModel = new AirlinesContext(dbOptions))
@@ -33,9 +33,9 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
                 var trainingDataView = mlContext.Data.LoadFromEnumerable(flightCodeTrainingData);
 
                 // Set the key column (IATACode), featurize the text FlightCode column (to a long) and add it to the features collection
-                var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: DefaultColumnNames.Label, inputColumnName: nameof(FlightCodeFeatures.IATACode))
+                var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "Label", inputColumnName: nameof(FlightCodeFeatures.IATACode))
                 .Append(mlContext.Transforms.Text.FeaturizeText(outputColumnName: "FlightCodeFeaturized", inputColumnName: nameof(FlightCodeFeatures.FlightCode)))
-                .Append(mlContext.Transforms.Concatenate(outputColumnName: DefaultColumnNames.Features, "FlightCodeFeaturized"));
+                .Append(mlContext.Transforms.Concatenate(outputColumnName: "Features", "FlightCodeFeaturized"));
 
                 if (cacheData)
                 {
@@ -45,14 +45,14 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
 
                 // Define the trainer to be used
                 IEstimator<ITransformer> trainer = null;
-                trainer = mlContext.MulticlassClassification.Trainers.StochasticDualCoordinateAscent(DefaultColumnNames.Label, DefaultColumnNames.Features);
+                trainer = mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy();
 
                 // Create a training pipeline that adds the trainer to the data pipeline and maps prediction to a string in the output (default name)
                 var trainingPipeline = dataProcessPipeline.Append(trainer)
-                        .Append(mlContext.Transforms.Conversion.MapKeyToValue(DefaultColumnNames.PredictedLabel));
+                        .Append(mlContext.Transforms.Conversion.MapKeyToValue("PredictedLabel"));
 
                 // Do the actual training, reads the features and builds the model
-                Console.WriteLine($"Starting training (concurrency {concurrency})");
+                Console.WriteLine($"Starting training");
                 var watch = System.Diagnostics.Stopwatch.StartNew();
                 trainedModel = trainingPipeline.Fit(trainingDataView);
                 watch.Stop();
@@ -65,13 +65,13 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
         }
 
 
-        public static float TestModel(ITransformer model)
+        public static float TestModel(ITransformer trainedModel)
         {
             // Create an ML.NET environment
             var mlContext = new MLContext(seed: 0);
 
             // Make a predictor using the trained model
-            var flightCodePredictor = model.CreatePredictionEngine<FlightCodeFeatures, FlightCodePrediction>(mlContext);
+            var flightCodePredictor = mlContext.Model.CreatePredictionEngine<FlightCodeFeatures, FlightCodePrediction>(trainedModel);
 
             // Test the predictor (on data not used for training)
             var defaultColor = Console.ForegroundColor;
