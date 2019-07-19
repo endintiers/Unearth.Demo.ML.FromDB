@@ -74,5 +74,15 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
                 }
             }
         }
+
+        private static string GetAssemblyPath()
+        {
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string result = Uri.UnescapeDataString(uri.Path);
+            result = Path.GetDirectoryName(result);
+            return result;
+        }
     }
+
 }
