@@ -32,6 +32,5 @@ namespace Unearth.Demo.ML.FromDB.Common.Sql
                 entity.Property(e => e.Iatacode).HasMaxLength(10);
             });
         }
-
     }
 }

@@ -33,10 +33,9 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
             {
                 model = MLNetHelper.TrainModel(dbOptions, cacheData: true, nth: 1);
             }
-            catch (AggregateException)
+            catch (Exception ex)
             {
-                // This happens when multiple threads attempt to read from the EF DBContext
-                Console.WriteLine("Got AggregateException while training");
+                Console.WriteLine($"Got Exception {ex.Message} while training");
             }
 
             if (model != null)
@@ -75,15 +74,5 @@ namespace Unearth.Demo.ML.FromDB.TestConsole
                 }
             }
         }
-
-        private static string GetAssemblyPath()
-        {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string result = Uri.UnescapeDataString(uri.Path);
-            result = Path.GetDirectoryName(result);
-            return result;
-        }
     }
-
 }
